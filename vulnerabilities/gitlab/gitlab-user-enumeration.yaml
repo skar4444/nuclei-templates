@@ -1,35 +1,31 @@
 id: gitlab-user-enumeration
-
-info:
-  name: GitLab - User Enumeration
-  author: Suman Kar
+info: 
+  author: "Suman Kar"
+  name: "GitLab - User Enumeration"
   severity: info
-  tags: fuzzer,gitlab,enumeration
-  
-requests:
-  - payloads:
-      dlist: helpers/wordlists/user-list.txt
-
+  tags: "fuzzer,gitlab,enumeration"
+requests: 
+  - 
     attack: sniper
-    threads: 100
-
-    raw:
-      - |
-        GET /users/{{dlist}}/exists HTTP/1.1 
-        Host: {{Hostname}}
-        User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0
-        Accept-Language: en-US,en;q=0.9
-        Accept: application/json, text/plain, */*
-        Referer: {{BaseURL}}
-        Connection: keep-alive 
-
-    matchers-condition: and
-    matchers:
-      - type: regex
-        regex:
-          - "exists.*:true"
+    matchers: 
+      - 
         part: body
-
-      - type: status
-        status:
-          - 200 
+        regex: 
+          - "exists.*:true"
+        type: regex
+      - 
+        status: 
+          - 200
+        type: status
+    matchers-condition: and
+    payloads: 
+      dlist: helpers/wordlists/user-list.txt
+    raw: 
+      - "GET /users/{{dlist}}/exists HTTP/1.1 \n\
+          Host: {{Hostname}}\n\
+          User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0\n\
+          Accept-Language: en-US,en;q=0.9\n\
+          Accept: application/json, text/plain, */*\n\
+          Referer: {{BaseURL}}\n\
+          Connection: keep-alive \n"
+    threads: 50
